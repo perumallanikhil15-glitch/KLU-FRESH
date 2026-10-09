@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KLU Fresh — Fresh essentials. Smarter shopping.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= TOAST NOTIFICATION ================= -->
+<div id="toast" class="toast"></div>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+  <div class="header-top">
+    <div class="logo" id="logoHome">
+      <span class="logo-leaf">🌿</span>
+      <span class="logo-text">KLU <span>Fresh</span></span>
+    </div>
+
+    <!-- Customer Section Navigation -->
+    <nav class="main-nav" id="mainNav">
+      <a href="#home" class="nav-link active">Home</a>
+      <a href="#products" class="nav-link">Products</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" class="search-input" placeholder="Search for fruits, vegetables, groceries...">
+    </div>
+
+    <div class="header-actions">
+      <button class="action-btn" id="locationBtn">
+        <span class="action-icon">📍</span>
+        <span class="action-label">Vijayawada</span>
+      </button>
+      <button class="action-btn" id="myOrdersNavBtn">
+        <span class="action-icon">📦</span>
+        <span class="badge" id="ordersCount">0</span>
+        <span class="action-label">Orders</span>
+      </button>
+      <button class="action-btn" id="wishlistBtn">
+        <span class="action-icon" id="wishlistIcon">🤍</span>
+        <span class="badge" id="wishlistCount">0</span>
+        <span class="action-label">Wishlist</span>
+      </button>
+      <button class="action-btn" id="cartBtn">
+        <span class="action-icon">🛒</span>
+        <span class="badge" id="cartCount">0</span>
+        <span class="action-label">Cart</span>
+      </button>
+      <div class="auth-area" id="authArea">
+        <!-- Logged-out state -->
+        <div class="auth-guest" id="authGuest">
+          <button class="action-btn" id="loginBtn" title="Login / Register">
+            <span class="action-icon">👤</span>
+            <span class="action-label">Login</span>
+          </button>
+        </div>
+
+        <!-- Logged-in state -->
+        <div class="auth-user" id="authUser" style="display:none;">
+          <button class="action-btn user-menu-trigger" id="userMenuTrigger">
+            <span class="action-icon">👤</span>
+            <span class="action-label" id="userNameLabel">Account</span>
+          </button>
+          <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown-header">
+              <div class="user-avatar" id="dropdownAvatar">👤</div>
+              <div>
+                <div class="user-dropdown-name" id="dropdownName"></div>
+                <div class="user-dropdown-email" id="dropdownEmail"></div>
+                <span class="role-badge" id="dropdownRoleBadge">👤 Customer</span>
+              </div>
+            </div>
+            <div id="userNavLinks">
+              <button class="user-dropdown-item" id="myOrdersMenuBtn">📦 My Orders &amp; Tracking</button>
+              <button class="user-dropdown-item" id="accountMenuBtn">👤 Account / Profile</button>
+            </div>
+            <div id="adminNavLinks" style="display:none;">
+              <button class="user-dropdown-item admin-menu-highlight" id="adminDashboardBtn">🛠️ Admin Dashboard</button>
+            </div>
+            <button class="user-dropdown-item logout-item" id="logoutBtn">🚪 Logout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+
+<!-- ================= STOREFRONT / USER MODULE ================= -->
+<div id="userStorefrontView">
+
+<!-- ================= HERO SECTION (#home) ================= -->
+<section class="hero" id="home">
+  <div class="hero-text">
+    <p class="hero-eyebrow">Delivering freshness since today 🌱</p>
+    <h1>Fresh groceries, delivered to your doorstep.</h1>
+    <p class="hero-desc">Shop everyday essentials at great prices with KLU Fresh.</p>
+    <div class="hero-buttons">
+      <button class="btn btn-primary" id="shopNowBtn">Shop Now</button>
+      <button class="btn btn-outline" id="viewDealsBtn">View Deals</button>
+    </div>
+    <div class="hero-stats">
+      <div><strong>15 min</strong><span>Fast delivery</span></div>
+      <div><strong>200+</strong><span>Daily essentials</span></div>
+      <div><strong>4.8★</strong><span>Customer rating</span></div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="offer-badge">Up to<br><span>30% OFF</span></div>
+    <div class="basket-card">
+      <div class="basket-grid">
+        <span>🍅</span><span>🥦</span><span>🍌</span>
+        <span>🥛</span><span>🍞</span><span>🥑</span>
+      </div>
+      <p class="basket-caption">Handpicked, farm-fresh &amp; on time</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRODUCTS SECTION (#products) ================= -->
+<section class="section" id="products">
+  <div id="productsSection">
+    <div class="section-heading">
+      <h2>Fresh Picks For You</h2>
+      <p>Quality groceries at honest prices</p>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-bar">
+      <div class="filter-group" id="filterCategoryGroup">
+        <label>Category</label>
+        <select id="filterCategory">
+          <option value="all">All</option>
+          <option value="Fruits & Vegetables">Fruits &amp; Vegetables</option>
+          <option value="Dairy">Dairy</option>
+          <option value="Snacks">Snacks</option>
+          <option value="Beverages">Beverages</option>
+          <option value="Staples">Staples</option>
+          <option value="Personal Care">Personal Care</option>
+          <option value="Household">Household</option>
+          <option value="Protein">Protein</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Sort by</label>
+        <select id="sortSelect">
+          <option value="default">Featured</option>
+          <option value="price-low">Price: Low → High</option>
+          <option value="price-high">Price: High → Low</option>
+          <option value="rating">Rating</option>
+          <option value="discount">Discount</option>
+        </select>
+      </div>
+      <div class="results-count" id="resultsCount"></div>
+    </div>
+
+    <div class="product-grid" id="productGrid">
+      <!-- injected by user.js -->
+    </div>
+    <p class="no-results" id="noResults" style="display:none;">No products found 😕</p>
+  </div>
+</section>
+
+<!-- ================= ABOUT SECTION (#about) ================= -->
+<section class="section about-section" id="about">
+  <div class="section-heading">
+    <h2>About KLU Fresh</h2>
+    <p>Your trusted campus &amp; city grocery delivery partner</p>
+  </div>
+  <div class="about-grid">
+    <div class="about-card">
+      <span class="about-icon">🌱</span>
+      <h3>100% Farm Fresh</h3>
+      <p>Directly sourced from trusted local farmers and organic certified growers every morning.</p>
+    </div>
+    <div class="about-card">
+      <span class="about-icon">⚡</span>
+      <h3>15-Minute Delivery</h3>
+      <p>Superfast delivery to your room, hostel, or home across Vijayawada &amp; KL University.</p>
+    </div>
+    <div class="about-card">
+      <span class="about-icon">💰</span>
+      <h3>Honest Prices</h3>
+      <p>Best daily deals, student discounts, and zero delivery fee on qualifying orders.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER / CONTACT SECTION (#contact) ================= -->
+<footer class="site-footer" id="contact">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="logo">
+        <span class="logo-leaf">🌿</span>
+        <span class="logo-text">KLU <span>Fresh</span></span>
+      </div>
+      <p>Fresh groceries delivered to your doorstep across Vijayawada &amp; KL University.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Categories</h4>
+      <ul>
+        <li>Fruits &amp; Vegetables</li>
+        <li>Dairy</li>
+        <li>Snacks</li>
+        <li>Beverages</li>
+        <li>Protein</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Customer Support</h4>
+      <ul>
+        <li>Help &amp; FAQs</li>
+        <li>Contact: support@klufresh.com</li>
+        <li>Helpline: +91 866 245 6789</li>
+        <li>Returns Policy</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Follow Us</h4>
+      <ul>
+        <li>Instagram</li>
+        <li>LinkedIn</li>
+        <li>Facebook</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 KLU Fresh | Customer &amp; Admin Storefront Platform
+  </div>
+</footer>
+
+</div> <!-- /#userStorefrontView -->
+
+<!-- ================= CART SIDEBAR ================= -->
+<div class="overlay" id="cartOverlay"></div>
+<aside class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <button class="close-btn" id="closeCart">✕</button>
+  </div>
+
+  <div class="cart-items" id="cartItems">
+    <!-- injected by user.js -->
+  </div>
+
+  <div class="cart-footer" id="cartFooter">
+    <div class="coupon-row">
+      <input type="text" id="couponInput" placeholder="Enter coupon code (try KLU10)">
+      <button class="btn btn-small" id="applyCouponBtn">Apply</button>
+    </div>
+    <p class="coupon-msg" id="couponMsg"></p>
+
+    <div class="summary-row"><span>Subtotal</span><span id="sumSubtotal">₹0</span></div>
+    <div class="summary-row"><span>Discount</span><span id="sumDiscount">-₹0</span></div>
+    <div class="summary-row"><span>Delivery</span><span id="sumDelivery">FREE</span></div>
+    <div class="summary-row total-row"><span>Total</span><span id="sumTotal">₹0</span></div>
+
+    <button class="btn btn-primary full-width" id="checkoutBtn">Proceed to Checkout</button>
+  </div>
+</aside>
+
+<!-- ================= WISHLIST PANEL ================= -->
+<div class="overlay" id="wishlistOverlay"></div>
+<aside class="cart-sidebar" id="wishlistSidebar">
+  <div class="cart-header">
+    <h3>Your Wishlist</h3>
+    <button class="close-btn" id="closeWishlist">✕</button>
+  </div>
+  <div class="cart-items" id="wishlistItems">
+    <!-- injected by user.js -->
+  </div>
+</aside>
+
+<!-- ================= MY ORDERS & TRACKING MODAL ================= -->
+<div class="overlay" id="ordersOverlay"></div>
+<div class="modal orders-modal" id="ordersModal">
+  <div class="modal-header">
+    <div>
+      <h3>📦 My Orders &amp; Live Tracking</h3>
+      <p class="modal-subtitle">Track your delivery progress in real-time</p>
+    </div>
+    <button class="close-btn" id="closeOrders">✕</button>
+  </div>
+  <div class="modal-body">
+    <div id="ordersListContainer">
+      <!-- Injected by user.js -->
+    </div>
+  </div>
+</div>
+
+<!-- ================= CHECKOUT MODAL ================= -->
+<div class="overlay" id="checkoutOverlay"></div>
+<div class="modal" id="checkoutModal">
+  <div class="modal-header">
+    <h3>Checkout</h3>
+    <button class="close-btn" id="closeCheckout">✕</button>
+  </div>
+
+  <div class="modal-body">
+    <h4 class="modal-subhead">Delivery Address</h4>
+    <div class="form-grid">
+      <input type="text" id="custName" placeholder="Full Name">
+      <input type="text" id="custPhone" placeholder="Phone Number">
+      <input type="text" id="custAddress" placeholder="Address" class="span-2">
+      <input type="text" id="custCity" placeholder="City" value="Vijayawada">
+      <input type="text" id="custPincode" placeholder="Pincode" value="522502">
+    </div>
+
+    <h4 class="modal-subhead">Choose Delivery Slot</h4>
+    <div class="slot-grid" id="slotGrid">
+      <button class="slot-btn" data-slot="10 AM – 12 PM">10 AM – 12 PM</button>
+      <button class="slot-btn" data-slot="12 PM – 2 PM">12 PM – 2 PM</button>
+      <button class="slot-btn" data-slot="4 PM – 6 PM">4 PM – 6 PM</button>
+      <button class="slot-btn" data-slot="6 PM – 8 PM">6 PM – 8 PM</button>
+    </div>
+
+    <h4 class="modal-subhead">Payment Method</h4>
+    <div class="payment-grid" id="paymentGrid">
+      <label class="payment-option"><input type="radio" name="payment" value="Cash on Delivery" checked> Cash on Delivery</label>
+      <label class="payment-option"><input type="radio" name="payment" value="UPI"> UPI (GooglePay / PhonePe / Paytm)</label>
+      <label class="payment-option"><input type="radio" name="payment" value="Card"> Credit / Debit Card</label>
+    </div>
+
+    <div class="checkout-total" id="checkoutTotal"></div>
+
+    <button class="btn btn-primary full-width" id="placeOrderBtn">Place Order</button>
+  </div>
+</div>
+
+<!-- ================= ORDER SUCCESS MODAL ================= -->
+<div class="overlay" id="successOverlay"></div>
+<div class="modal success-modal" id="successModal">
+  <div class="success-emoji">🎉</div>
+  <h2>Order Placed Successfully!</h2>
+  <p class="success-line"><strong>Order ID:</strong> <span id="orderId"></span></p>
+  <p class="success-line"><strong>Estimated Delivery:</strong> Today</p>
+  <p class="success-line"><strong>Delivery Slot:</strong> <span id="orderSlot"></span></p>
+  <div class="success-actions">
+    <button class="btn btn-outline" id="viewMyOrdersSuccessBtn">📦 View &amp; Track Order</button>
+    <button class="btn btn-primary" id="continueShoppingBtn">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- ================= LOGIN MODAL ================= -->
+<div class="overlay" id="loginOverlay"></div>
+<div class="modal auth-modal" id="loginModal">
+  <div class="modal-header">
+    <h3>Login</h3>
+    <button class="close-btn" id="closeLogin">✕</button>
+  </div>
+  <div class="modal-body">
+    <!-- Role Switch Segmented Control: User (Default) | Admin -->
+    <div class="auth-role-switch">
+      <button type="button" class="role-switch-btn active" id="roleSwitchUser" data-role="user">User</button>
+      <button type="button" class="role-switch-btn" id="roleSwitchAdmin" data-role="admin">Admin</button>
+    </div>
+
+    <p class="auth-error" id="loginError"></p>
+    <div class="auth-form">
+      <input type="email" id="loginEmail" placeholder="Email" autocomplete="email">
+      <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
+    </div>
+    <button class="btn btn-primary full-width" id="loginSubmitBtn">Sign In as User</button>
+    <p class="auth-switch" id="loginSignupSwitch">New to KLU Fresh? <a href="#" id="switchToSignup">Create customer account</a></p>
+  </div>
+</div>
+
+<!-- ================= SIGN UP MODAL ================= -->
+<div class="overlay" id="signupOverlay"></div>
+<div class="modal auth-modal" id="signupModal">
+  <div class="modal-header">
+    <h3>Create Account</h3>
+    <button class="close-btn" id="closeSignup">✕</button>
+  </div>
+  <div class="modal-body">
+    <p class="auth-error" id="signupError"></p>
+    <div class="auth-form">
+      <input type="text" id="signupName" placeholder="Full Name" autocomplete="name">
+      <input type="email" id="signupEmail" placeholder="Email" autocomplete="email">
+      <input type="password" id="signupPassword" placeholder="Password (min. 6 characters)" autocomplete="new-password">
+      <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" autocomplete="new-password">
+    </div>
+    <button class="btn btn-primary full-width" id="signupSubmitBtn">Create Account</button>
+    <p class="auth-switch">Already have an account? <a href="#" id="switchToLogin">Login</a></p>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+<script src="navigation.js"></script>
+<script src="user.js"></script>
+</body>
+</html>

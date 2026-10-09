@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KLU Fresh — Admin Management Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-body">
+
+<!-- ================= TOAST NOTIFICATION ================= -->
+<div id="toast" class="toast"></div>
+
+<!-- ================= 🛠️ ADMIN MODULE ================= -->
+<div id="adminModuleView" class="admin-module">
+  <!-- Admin Top Bar -->
+  <div class="admin-topbar">
+    <div class="admin-topbar-left">
+      <div class="logo" id="adminLogoHome">
+        <span class="logo-leaf">🌿</span>
+        <span class="logo-text">KLU <span>Fresh</span> <span class="admin-badge-tag">Admin Panel</span></span>
+      </div>
+    </div>
+    <div class="admin-topbar-actions">
+      <span class="admin-user-pill">🛡️ Store Admin (admin@klufresh.com)</span>
+      <button class="btn btn-outline btn-small" id="adminBackToStoreBtn">🏪 View Storefront</button>
+      <button class="btn btn-primary btn-small" id="adminLogoutBtn">🚪 Logout</button>
+    </div>
+  </div>
+
+  <div class="admin-container">
+    <!-- Admin Sidebar Nav -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-menu">
+        <button class="admin-nav-item active" data-tab="admin-dashboard">
+          <span class="admin-nav-icon">📊</span>
+          <span>Dashboard Overview</span>
+        </button>
+        <button class="admin-nav-item" data-tab="admin-products">
+          <span class="admin-nav-icon">📦</span>
+          <span>Manage Products</span>
+        </button>
+        <button class="admin-nav-item" data-tab="admin-orders">
+          <span class="admin-nav-icon">📑</span>
+          <span>Customer Orders</span>
+          <span class="badge" id="adminOrdersBadge">0</span>
+        </button>
+        <button class="admin-nav-item" data-tab="admin-users">
+          <span class="admin-nav-icon">👥</span>
+          <span>Registered Users</span>
+        </button>
+      </div>
+      <div class="admin-sidebar-footer">
+        <div class="admin-status-indicator">
+          <span class="pulse-dot"></span> Live Store Management
+        </div>
+      </div>
+    </aside>
+
+    <!-- Admin Main Content Area -->
+    <main class="admin-main">
+
+      <!-- TAB 1: DASHBOARD -->
+      <div class="admin-tab-pane active" id="tab-admin-dashboard">
+        <div class="admin-header-row">
+          <div>
+            <h2>Dashboard Overview</h2>
+            <p class="admin-subtitle">Live store statistics, revenue, and fulfillment status</p>
+          </div>
+          <button class="btn btn-primary btn-small" id="adminAddNewProductBtnDash">➕ Add New Product</button>
+        </div>
+
+        <!-- Metrics Cards -->
+        <div class="admin-stats-grid">
+          <div class="admin-stat-card">
+            <div class="stat-icon-wrap icon-green">💰</div>
+            <div>
+              <div class="stat-label">Total Revenue</div>
+              <div class="stat-value" id="adminStatRevenue">₹0</div>
+              <div class="stat-sub">From all customer orders</div>
+            </div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="stat-icon-wrap icon-orange">📑</div>
+            <div>
+              <div class="stat-label">Total Orders</div>
+              <div class="stat-value" id="adminStatOrders">0</div>
+              <div class="stat-sub" id="adminStatPendingOrders">0 active/pending</div>
+            </div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="stat-icon-wrap icon-blue">📦</div>
+            <div>
+              <div class="stat-label">Catalog Products</div>
+              <div class="stat-value" id="adminStatProducts">0</div>
+              <div class="stat-sub" id="adminStatLowStock">0 low in stock</div>
+            </div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="stat-icon-wrap icon-purple">👥</div>
+            <div>
+              <div class="stat-label">Registered Users</div>
+              <div class="stat-value" id="adminStatUsers">0</div>
+              <div class="stat-sub">Active customer accounts</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Orders Snapshot -->
+        <div class="admin-section-card">
+          <div class="admin-card-header">
+            <h3>Recent Customer Orders</h3>
+            <button class="link-btn" id="viewAllOrdersLink">View All Orders →</button>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table" id="adminRecentOrdersTable">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Amount</th>
+                  <th>Slot</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminRecentOrdersBody">
+                <!-- Injected by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: MANAGE PRODUCTS -->
+      <div class="admin-tab-pane" id="tab-admin-products">
+        <div class="admin-header-row">
+          <div>
+            <h2>Product Catalog Management</h2>
+            <p class="admin-subtitle">Add, edit, delete products and adjust inventory stock</p>
+          </div>
+          <button class="btn btn-primary" id="adminAddNewProductBtn">➕ Add Product</button>
+        </div>
+
+        <div class="admin-search-filter-bar">
+          <input type="text" id="adminProductSearch" class="admin-input-search" placeholder="Search products by name or category...">
+          <select id="adminProductCatFilter" class="admin-select-filter">
+            <option value="all">All Categories</option>
+            <option value="Fruits & Vegetables">Fruits &amp; Vegetables</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Snacks">Snacks</option>
+            <option value="Beverages">Beverages</option>
+            <option value="Staples">Staples</option>
+            <option value="Personal Care">Personal Care</option>
+            <option value="Household">Household</option>
+            <option value="Protein">Protein</option>
+          </select>
+        </div>
+
+        <div class="admin-section-card">
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Unit</th>
+                  <th>Price</th>
+                  <th>Orig. Price</th>
+                  <th>Stock</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminProductsTableBody">
+                <!-- Injected by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: CUSTOMER ORDERS -->
+      <div class="admin-tab-pane" id="tab-admin-orders">
+        <div class="admin-header-row">
+          <div>
+            <h2>Customer Orders &amp; Fulfillment</h2>
+            <p class="admin-subtitle">Manage customer orders and update real-time fulfillment status</p>
+          </div>
+          <div class="admin-order-filters">
+            <select id="adminOrderStatusFilter" class="admin-select-filter">
+              <option value="all">All Order Statuses</option>
+              <option value="Placed">Placed</option>
+              <option value="Processing">Processing</option>
+              <option value="Out for Delivery">Out for Delivery</option>
+              <option value="Delivered">Delivered</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="admin-section-card">
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order ID &amp; Time</th>
+                  <th>Customer Info</th>
+                  <th>Delivery Address</th>
+                  <th>Items Ordered</th>
+                  <th>Payment</th>
+                  <th>Total</th>
+                  <th>Update Status</th>
+                </tr>
+              </thead>
+              <tbody id="adminAllOrdersTableBody">
+                <!-- Injected by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: REGISTERED USERS -->
+      <div class="admin-tab-pane" id="tab-admin-users">
+        <div class="admin-header-row">
+          <div>
+            <h2>Registered Customers</h2>
+            <p class="admin-subtitle">List of customer accounts registered on KLU Fresh</p>
+          </div>
+        </div>
+
+        <div class="admin-section-card">
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Email</th>
+                  <th>Account Role</th>
+                  <th>Registered On</th>
+                  <th>Total Orders Placed</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersTableBody">
+                <!-- Injected by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ================= ADMIN ADD/EDIT PRODUCT MODAL ================= -->
+<div class="overlay" id="adminProductOverlay"></div>
+<div class="modal" id="adminProductModal">
+  <div class="modal-header">
+    <h3 id="adminProductModalTitle">Add New Product</h3>
+    <button class="close-btn" id="closeAdminProductModal">✕</button>
+  </div>
+  <div class="modal-body">
+    <form id="adminProductForm">
+      <input type="hidden" id="adminEditProductId">
+      <div class="form-grid">
+        <div class="span-2">
+          <label class="form-input-label">Product Name *</label>
+          <input type="text" id="adminProdName" placeholder="e.g. Fresh Organic Apples" required>
+        </div>
+        <div>
+          <label class="form-input-label">Category *</label>
+          <select id="adminProdCategory" class="admin-select" required>
+            <option value="Fruits & Vegetables">Fruits &amp; Vegetables</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Snacks">Snacks</option>
+            <option value="Beverages">Beverages</option>
+            <option value="Staples">Staples</option>
+            <option value="Personal Care">Personal Care</option>
+            <option value="Household">Household</option>
+            <option value="Protein">Protein</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-input-label">Unit / Quantity *</label>
+          <input type="text" id="adminProdQty" placeholder="e.g. 1 kg, 500 g, 1 L" required>
+        </div>
+        <div>
+          <label class="form-input-label">Selling Price (₹) *</label>
+          <input type="number" id="adminProdPrice" min="1" placeholder="45" required>
+        </div>
+        <div>
+          <label class="form-input-label">Original Price (₹) *</label>
+          <input type="number" id="adminProdOriginal" min="1" placeholder="60" required>
+        </div>
+        <div>
+          <label class="form-input-label">Stock Units *</label>
+          <input type="number" id="adminProdStock" min="0" placeholder="20" required>
+        </div>
+        <div>
+          <label class="form-input-label">Display Emoji</label>
+          <input type="text" id="adminProdEmoji" placeholder="e.g. 🍎, 🥦, 🥛">
+        </div>
+        <div class="span-2">
+          <label class="form-input-label">Image Path or URL (Optional)</label>
+          <input type="text" id="adminProdImage" placeholder="e.g. Images/Whey Protein.jpg">
+        </div>
+      </div>
+      <div style="margin-top: 20px; display: flex; gap: 10px;">
+        <button type="button" class="btn btn-outline full-width" id="cancelAdminProductBtn">Cancel</button>
+        <button type="submit" class="btn btn-primary full-width" id="saveAdminProductBtn">Save Product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
